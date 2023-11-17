@@ -7,7 +7,8 @@ declare module "@userflux/backend-js" {
     }
 
     export interface TrackParameters {
-        userId: string;
+        userId?: string;
+        anonymousId?: string;
         event: string;
         properties?: Record<string, any>;
         locationEnrichEnabled?: boolean;

@@ -32,27 +32,44 @@ class UserFlux {
     }
 
     async track(parameters) {
-        // need to check if `parameters` is an object and contains `userId` and `event` properties
-        if (!parameters || typeof parameters !== 'object' || !parameters.userId || !parameters.event) {
+        if (!parameters || typeof parameters !== 'object') {
             console.error('Invalid parameters passed to track method');
-            return;
-        }
-        
-        // sanity check userId
-        const userId = parameters.userId;
-        if (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined') {
-            console.error('Invalid userId passed to track method');
             return;
         }
 
         // sanity check event
-        if (typeof parameters.event !== 'string' || parameters.event == 'null' || parameters.event == '' || parameters.event == 'undefined') {
+        const event = parameters.event;
+        if (!event || typeof event !== 'string' || event == 'null' || event == '' || event == 'undefined') {
             console.error('Invalid event passed to track method');
             return;
         }
 
-        const event = parameters.event;
+        // sanity check userId
+        const userId = parameters.userId;
+        if (userId && (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined')) {
+            console.error('Invalid userId passed to track method');
+            return;
+        }
+
+        // santify check anonymousId
+        const anonymousId = parameters.anonymousId;
+        if (anonymousId && (typeof anonymousId !== 'string' || anonymousId == 'null' || anonymousId == '' || anonymousId == 'undefined')) {
+            console.error('Invalid anonymousId passed to track method');
+            return;
+        }
+
+        // ensure either userId or anonymousId is provided
+        if (!userId && !anonymousId) {
+            console.error('Either userId or anonymousId must be provided');
+            return;
+        }
+
+        // sanity check properties
         const properties = parameters.properties || {};
+        if (typeof properties !== 'object') {
+            console.error('Invalid properties passed to track method');
+            return;
+        }
 
         // combine event properties with any default tracking properties
         const finalProperties = {
@@ -63,7 +80,7 @@ class UserFlux {
         const payload = {
             timestamp: Date.now(),
             userId: userId,
-            anonymousId: null,
+            anonymousId: anonymousId,
             name: event,
             properties: finalProperties,
             deviceData: null

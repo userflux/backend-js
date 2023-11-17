@@ -5,11 +5,12 @@ class UserFlux {
     constructor(apiKey, options = {}) {
         this.apiKey = apiKey;
         this.defaultTrackingProperties = options.defaultTrackingProperties || {};
+        this.locationEnrichEnabled = options.autoEnrich || false;
     }
 
-    async sendRequest(endpoint, data) {
+    async sendRequest(endpoint, data, locEnrichEnabled) {
         try {
-            const response = await axios.post(`https://integration-api.userflux.co/${endpoint}`, data, {
+            const response = await axios.post(`https://integration-api.userflux.co/${endpoint}?locationEnrichment=${locEnrichEnabled}`, data, {
                 headers: { 'Authorization': `Bearer ${this.apiKey}` }
             });
             console.log(`${endpoint} request successful:`, response.data);
@@ -44,7 +45,7 @@ class UserFlux {
         // combine event properties with any default tracking properties
         const finalProperties = {
             ...this.defaultTrackingProperties,
-            ...properties,
+            ...properties
         };
 
         const payload = {
@@ -56,7 +57,9 @@ class UserFlux {
             deviceData: null
         };
 
-        await this.sendRequest('event/ingest', payload);
+        const finalLocationEnrichEnabled = parameters.locationEnrichEnabled || this.locationEnrichEnabled;
+
+        await this.sendRequest('event/ingest', payload, finalLocationEnrichEnabled);
     }
 
     async identify(parameters) {
@@ -87,7 +90,9 @@ class UserFlux {
             deviceData: null
         };
 
-        await this.sendRequest('profile', payload);
+        const finalLocationEnrichEnabled = parameters.locationEnrichEnabled || this.locationEnrichEnabled;
+
+        await this.sendRequest('profile', payload, finalLocationEnrichEnabled);
     }
 
 }

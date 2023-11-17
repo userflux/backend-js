@@ -1,19 +1,19 @@
 // index.d.ts
 declare module "@userflux/backend-js" {
 
-    interface UserFluxSDKOptions {
+    export interface UserFluxSDKOptions {
         defaultTrackingProperties?: Record<string, any>;
         locationEnrichEnabled?: boolean;
     }
 
-    interface TrackParameters {
+    export interface TrackParameters {
         userId: string;
         event: string;
         properties?: Record<string, any>;
         locationEnrichEnabled?: boolean;
     }
 
-    interface IdentifyParameters {
+    export interface IdentifyParameters {
         userId: string;
         properties: Record<string, any>;
     }

@@ -108,3 +108,5 @@ class UserFlux {
     }
 
 }
+
+module.exports = UserFlux;

@@ -18,7 +18,7 @@ declare module "@userflux/backend-js" {
         properties: Record<string, any>;
     }
 
-    class UserFlux {
+    export class UserFlux {
 
         constructor(apiKey: string, options?: UserFluxSDKOptions);
 
@@ -26,7 +26,5 @@ declare module "@userflux/backend-js" {
         identify(parameters: IdentifyParameters): Promise<void>;
 
     }
-
-    export = UserFlux;
 
 }

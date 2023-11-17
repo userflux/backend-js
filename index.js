@@ -8,12 +8,24 @@ class UserFlux {
         this.locationEnrichEnabled = options.autoEnrich || false;
     }
 
+    isValidApiKeyProvided() {
+        if (!this.apiKey || this.apiKey == 'null' || this.apiKey == '' || this.apiKey == 'undefined') {
+            console.error('No API key provided');
+            return false;
+        }
+
+        return true;
+    }
+
     async sendRequest(endpoint, data, locEnrichEnabled) {
+        if (!this.isValidApiKeyProvided()) {
+            return;
+        }
+
         try {
             const response = await axios.post(`https://integration-api.userflux.co/${endpoint}?locationEnrichment=${locEnrichEnabled}`, data, {
                 headers: { 'Authorization': `Bearer ${this.apiKey}` }
             });
-            console.log(`${endpoint} request successful:`, response.data);
         } catch (error) {
             console.error(`Error in ${endpoint} request:`, error);
         }

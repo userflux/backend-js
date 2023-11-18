@@ -136,6 +136,37 @@ class UserFlux {
         await this.sendRequest('profile', payload, finalLocationEnrichEnabled);
     }
 
+    /* MARK: - Utility methods */
+    static getUserIdFromCookie(cookieHeader) {
+        try {
+            const cookieKey = 'uf-userId';
+            return UserFlux.getCookieValue(cookieHeader, cookieKey);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    static getAnonymousIdFromCookie(cookieHeader) {
+        try {
+            const cookieKey = 'uf-anonymousId';
+            return UserFlux.getCookieValue(cookieHeader, cookieKey);
+        } catch (error) {
+            return null;
+        }
+    }
+
+    static getCookieValue(cookieHeader, cookieKey) {
+        const cookies = {};
+        if (cookieHeader) {
+            cookieHeader.split(';').forEach(cookie => {
+                const [name, value] = cookie.split('=').map(c => c.trim());
+                cookies[name] = value;
+            });
+        }
+
+        return cookies[cookieKey] || null;
+    }
+
 }
 
 module.exports = UserFlux;

@@ -27,6 +27,9 @@ declare module "@userflux/backend-js" {
         track(parameters: TrackParameters): Promise<void>;
         identify(parameters: IdentifyParameters): Promise<void>;
 
+        static getUserIdFromCookie(cookieHeader: string): string | null;
+        static getAnonymousIdFromCookie(cookieHeader: string): string | null;
+
     }
 
 }

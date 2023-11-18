@@ -1,35 +1,18 @@
 // index.d.ts
 declare module "@userflux/backend-js" {
 
-    export interface UserFluxSDKOptions {
-        defaultTrackingProperties?: Record<string, any>;
-        autoEnrich?: boolean;
-    }
+    class UserFlux {
 
-    export interface TrackParameters {
-        userId?: string;
-        anonymousId?: string;
-        event: string;
-        properties?: Record<string, any>;
-        locationEnrichEnabled?: boolean;
-    }
+        constructor(apiKey: string, options?: Record<string, any>);
 
-    export interface IdentifyParameters {
-        userId?: string;
-        anonymousId?: string;
-        properties: Record<string, any>;
-    }
-
-    export class UserFlux {
-
-        constructor(apiKey: string, options?: UserFluxSDKOptions);
-
-        track(parameters: TrackParameters): Promise<void>;
-        identify(parameters: IdentifyParameters): Promise<void>;
+        track(parameters: Record<string, any>): Promise<void>;
+        identify(parameters: Record<string, any>): Promise<void>;
 
         static getUserIdFromCookie(cookieHeader: string): string | null;
         static getAnonymousIdFromCookie(cookieHeader: string): string | null;
 
     }
+
+    export = UserFlux;
 
 }

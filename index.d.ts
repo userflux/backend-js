@@ -3,7 +3,7 @@ declare module "@userflux/backend-js" {
 
     export interface UserFluxSDKOptions {
         defaultTrackingProperties?: Record<string, any>;
-        locationEnrichEnabled?: boolean;
+        autoEnrich?: boolean;
     }
 
     export interface TrackParameters {
@@ -15,7 +15,8 @@ declare module "@userflux/backend-js" {
     }
 
     export interface IdentifyParameters {
-        userId: string;
+        userId?: string;
+        anonymousId?: string;
         properties: Record<string, any>;
     }
 

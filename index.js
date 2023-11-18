@@ -92,29 +92,41 @@ class UserFlux {
     }
 
     async identify(parameters) {
-        // need to check if `parameters` is an object and contains `userId` and `properties` properties
-        if (!parameters || typeof parameters !== 'object' || !parameters.userId || !parameters.properties) {
+        if (!parameters || typeof parameters !== 'object') {
             console.error('Invalid parameters passed to identify method');
             return;
         }
 
         // sanity check userId
         const userId = parameters.userId;
-        if (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined') {
-            console.error('Invalid userId passed to track method');
+        if (userId && (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined')) {
+            console.error('Invalid userId passed to identify method');
+            return;
+        }
+
+        // santify check anonymousId
+        const anonymousId = parameters.anonymousId;
+        if (anonymousId && (typeof anonymousId !== 'string' || anonymousId == 'null' || anonymousId == '' || anonymousId == 'undefined')) {
+            console.error('Invalid anonymousId passed to identify method');
+            return;
+        }
+
+        // ensure either userId or anonymousId is provided
+        if (!userId && !anonymousId) {
+            console.error('Either userId or anonymousId must be provided');
             return;
         }
 
         // sanity check properties
         const properties = parameters.properties;
-        if (typeof properties !== 'object') {
+        if (!properties || typeof properties !== 'object') {
             console.error('Invalid properties passed to identify method');
             return;
         }
 
         const payload = {
             userId: userId,
-            anonymousId: null,
+            anonymousId: anonymousId,
             properties: properties,
             deviceData: null
         };

@@ -23,7 +23,7 @@ class UserFlux {
         }
 
         try {
-            const response = await axios.post(`https://integration-api.userflux.co/${endpoint}?locationEnrichment=${locEnrichEnabled}`, data, {
+            return await axios.post(`https://integration-api.userflux.co/${endpoint}?locationEnrichment=${locEnrichEnabled}`, data, {
                 headers: { 'Authorization': `Bearer ${this.apiKey}` }
             });
         } catch (error) {
@@ -88,7 +88,7 @@ class UserFlux {
 
         const finalLocationEnrichEnabled = parameters.locationEnrichEnabled || this.locationEnrichEnabled;
 
-        await this.sendRequest('event/ingest', payload, finalLocationEnrichEnabled);
+        return await this.sendRequest('event/ingest', payload, finalLocationEnrichEnabled);
     }
 
     async identify(parameters) {
@@ -133,7 +133,7 @@ class UserFlux {
 
         const finalLocationEnrichEnabled = parameters.locationEnrichEnabled || this.locationEnrichEnabled;
 
-        await this.sendRequest('profile', payload, finalLocationEnrichEnabled);
+        return await this.sendRequest('profile', payload, finalLocationEnrichEnabled);
     }
 
     /* MARK: - Utility methods */

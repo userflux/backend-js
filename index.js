@@ -71,6 +71,13 @@ class UserFlux {
             return;
         }
 
+        // sanity check timestamp
+        const timestamp = parameters.timestamp || Date.now();
+        if (typeof timestamp !== 'number') {
+            console.error('Invalid timestamp passed to track method');
+            return;
+        }
+
         // combine event properties with any default tracking properties
         const finalProperties = {
             ...this.defaultTrackingProperties,
@@ -78,7 +85,7 @@ class UserFlux {
         };
 
         const payload = {
-            timestamp: Date.now(),
+            timestamp: timestamp,
             userId: userId,
             anonymousId: anonymousId,
             name: event,
@@ -142,6 +149,7 @@ class UserFlux {
             const cookieKey = 'uf-userId';
             return UserFlux.getCookieValue(cookieHeader, cookieKey);
         } catch (error) {
+            console.error('Error getting userId from cookie:', error);
             return null;
         }
     }
@@ -151,6 +159,7 @@ class UserFlux {
             const cookieKey = 'uf-anonymousId';
             return UserFlux.getCookieValue(cookieHeader, cookieKey);
         } catch (error) {
+            console.error('Error getting anonymousId from cookie:', error);
             return null;
         }
     }
@@ -165,6 +174,15 @@ class UserFlux {
         }
 
         return cookies[cookieKey] || null;
+    }
+
+    static isoTimestampToEpoch(isoTimestamp) {
+        try {
+            return Date.parse(isoTimestamp);
+        } catch (error) {
+            console.error('Error parsing ISO timestamp:', error);
+            return null;
+        }
     }
 
 }

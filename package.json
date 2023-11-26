@@ -1,6 +1,6 @@
 {
   "name": "@userflux/backend-js",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "UserFlux's Backend JavaScript SDK - send your analytics data to the UserFlux platform",
   "main": "index.js",
   "types": "index.d.ts",

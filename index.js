@@ -9,7 +9,7 @@ class UserFlux {
     }
 
     isValidApiKeyProvided() {
-        if (!this.apiKey || this.apiKey == 'null' || this.apiKey == '' || this.apiKey == 'undefined') {
+        if (!this.apiKey || this.isStringNullOrBlank(this.apiKey)) {
             console.error('No API key provided');
             return false;
         }
@@ -39,21 +39,21 @@ class UserFlux {
 
         // sanity check event
         const event = parameters.event;
-        if (!event || typeof event !== 'string' || event == 'null' || event == '' || event == 'undefined') {
+        if (!event || this.isStringNullOrBlank(event)) {
             console.error('Invalid event passed to track method');
             return;
         }
 
         // sanity check userId
         const userId = parameters.userId;
-        if (userId && (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined')) {
+        if (userId && this.isStringNullOrBlank(userId)) {
             console.error('Invalid userId passed to track method');
             return;
         }
 
         // santify check anonymousId
         const anonymousId = parameters.anonymousId;
-        if (anonymousId && (typeof anonymousId !== 'string' || anonymousId == 'null' || anonymousId == '' || anonymousId == 'undefined')) {
+        if (anonymousId && this.isStringNullOrBlank(anonymousId)) {
             console.error('Invalid anonymousId passed to track method');
             return;
         }
@@ -106,14 +106,14 @@ class UserFlux {
 
         // sanity check userId
         const userId = parameters.userId;
-        if (userId && (typeof userId !== 'string' || userId == 'null' || userId == '' || userId == 'undefined')) {
+        if (userId && this.isStringNullOrBlank(userId)) {
             console.error('Invalid userId passed to identify method');
             return;
         }
 
         // santify check anonymousId
         const anonymousId = parameters.anonymousId;
-        if (anonymousId && (typeof anonymousId !== 'string' || anonymousId == 'null' || anonymousId == '' || anonymousId == 'undefined')) {
+        if (anonymousId && this.isStringNullOrBlank(anonymousId)) {
             console.error('Invalid anonymousId passed to identify method');
             return;
         }
@@ -183,6 +183,11 @@ class UserFlux {
             console.error('Error parsing ISO timestamp:', error);
             return null;
         }
+    }
+
+    static isStringNullOrBlank(value) {
+        if (typeof value !== 'string') return true;
+        return value == 'null' || value == '' || value == 'undefined'
     }
 
 }

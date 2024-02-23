@@ -34,6 +34,7 @@ The client constructor takes two arguments:
 ufClient.track({
     userId: '<USER_ID>',
     anonymousId: '<ANONYMOUS_ID>',
+    sessionId: '<SESSION_ID>',
     event: 'event_name',
     timestamp: 1700968957392,
     properties: { ... }
@@ -44,6 +45,7 @@ The `track` method takes a single argument:
 - `parameters` - An object containing the following properties:
     - `userId` - (optional) A string representing the user ID of the user who performed the event
     - `anonymousId` - (optional) A optional string representing the anonymous ID of the user who performed the event
+    - `sessionId`  - (optional) A string representing the session ID of the user who performed the event
     - `event` - (required) A string representing the name of the event
     - `timestamp` - (optional) A number representing the timestamp of the event in milliseconds since the Unix epoch. Defaults to the current time
     - `properties` - (optional) An object containing any properties to be sent with the event. Defaults to an empty object
@@ -90,6 +92,16 @@ UserFlux.getAnonymousIdFromCookie(req.headers.cookie)
 
 If you're using the backend SDK in conjunction with the frontend SDK, you can use this method to extract the anonymous ID set by the frontend SDK from the cookie header of an HTTP request.
 The `getAnonymousIdFromCookie` method takes a single argument:
+- `cookie` - A string representing the cookie header from an HTTP request
+
+## getSessionIdFromCookie
+
+```javascript
+UserFlux.getSessionIdFromCookie(req.headers.cookie)
+```
+
+If you're using the backend SDK in conjunction with the frontend SDK, you can use this method to extract the session ID set by the frontend SDK from the cookie header of an HTTP request.
+The `getSessionIdFromCookie` method takes a single argument:
 - `cookie` - A string representing the cookie header from an HTTP request
 
 ## isoTimestampToEpoch

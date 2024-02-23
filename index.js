@@ -51,10 +51,17 @@ class UserFlux {
             return;
         }
 
-        // santify check anonymousId
+        // sanity check anonymousId
         const anonymousId = parameters.anonymousId;
         if (anonymousId && this.isStringNullOrBlank(anonymousId)) {
             console.error('Invalid anonymousId passed to track method');
+            return;
+        }
+
+        // sanity check sessionId
+        const sessionId = parameters.sessionId;
+        if (sessionId && this.isStringNullOrBlank(sessionId)) {
+            console.error('Invalid sessionId passed to track method');
             return;
         }
 
@@ -88,6 +95,7 @@ class UserFlux {
             timestamp: timestamp,
             userId: userId,
             anonymousId: anonymousId,
+            sessionId: sessionId,
             name: event,
             properties: finalProperties,
             deviceData: null
@@ -160,6 +168,16 @@ class UserFlux {
             return UserFlux.getCookieValue(cookieHeader, cookieKey);
         } catch (error) {
             console.error('Error getting anonymousId from cookie:', error);
+            return null;
+        }
+    }
+
+    static getSessionIdFromCookie(cookieHeader) {
+        try {
+            const cookieKey = 'uf-sessionId';
+            return UserFlux.getCookieValue(cookieHeader, cookieKey);
+        } catch (error) {
+            console.error('Error getting sessionId from cookie:', error);
             return null;
         }
     }

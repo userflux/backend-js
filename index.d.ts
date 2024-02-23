@@ -10,6 +10,7 @@ declare module "@userflux/backend-js" {
 
         static getUserIdFromCookie(cookieHeader: string): string | null;
         static getAnonymousIdFromCookie(cookieHeader: string): string | null;
+        static getSessionIdFromCookie(cookieHeader: string): string | null;
         static isoTimestampToEpoch(isoTimestamp: string): number | null;
 
     }

@@ -203,7 +203,7 @@ class UserFlux {
         }
     }
 
-    static isStringNullOrBlank(value) {
+    isStringNullOrBlank(value) {
         if (typeof value !== 'string') return true;
         return value == 'null' || value == '' || value == 'undefined'
     }
